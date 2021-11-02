@@ -1,40 +1,41 @@
 <template>
-  <q-page>
-    <div class="q-py-lg q-px-md row items-end q-col-gutter-sm">
-      <div class="col">
-        <q-input
-          class="new-tweet"
-          bottom-slots
-          v-model="newTweetContent"
-          placeholder="What's happening?"
-          maxlength="280"
-          counter
-          autogrow
-        >
-          <template v-slot:before>
-            <q-avatar size="xl">
-              <img src="https://cdn.quasar.dev/img/avatar4.jpg">
-            </q-avatar>
-          </template>
-        </q-input>
+  <q-page class="relative-position">
+    <q-scroll-area class="absolute fullscreen">
+      <div class="q-py-lg q-px-md row items-end q-col-gutter-sm">
+        <div class="col">
+          <q-input
+            class="new-tweet"
+            bottom-slots
+            v-model="newTweetContent"
+            placeholder="What's happening?"
+            maxlength="280"
+            counter
+            autogrow
+          >
+            <template v-slot:before>
+              <q-avatar size="xl">
+                <img src="https://cdn.quasar.dev/img/avatar4.jpg">
+              </q-avatar>
+            </template>
+          </q-input>
+        </div>
+        <div class="col col-shrink">
+          <q-btn
+            @click="addNewTweet"
+            :disable="!newTweetContent"
+            class="q-mb-lg"
+            unelevated
+            rounded
+            color="primary"
+            label="Tweet"
+            no-caps
+          />
+        </div>
       </div>
-      <div class="col col-shrink">
-        <q-btn
-          @click="addNewTweet"
-          :disable="!newTweetContent"
-          class="q-mb-lg"
-          unelevated
-          rounded
-          color="primary"
-          label="Tweet"
-          no-caps
-        />
-      </div>
-    </div>
 
-    <q-separator class="divider" size="10px" color="grey-2" />
+      <q-separator class="divider" size="10px" color="grey-2" />
 
-    <q-list>
+      <q-list>
       <transition-group
         appear
         enter-active-class="animated fadeIn"
@@ -54,7 +55,10 @@
         <q-item-section>
           <q-item-label class="text-subtitle1">
             <strong>Bekzod Rakhmonjonov </strong>
-            <span class="text-grey-7">@programmer_AI</span>
+            <span class="text-grey-7">
+              @programmer_AI
+              <br class="lt-md">&bull; {{ tweet.date }}<!-- {{ tweet.date | relativeDate }}-->
+            </span>
           </q-item-label>
 
           <q-item-label class="text-body1">
@@ -70,13 +74,10 @@
             <q-btn @click="deleteTweet(tweet)" flat round color="grey" icon="fas fa-trash" size="sm" />
           </div>
         </q-item-section>
-
-        <q-item-section side top>
-          {{ tweet.date | relativeDate }}
-        </q-item-section>
       </q-item>
       </transition-group>
     </q-list>
+    </q-scroll-area>
   </q-page>
 </template>
 
