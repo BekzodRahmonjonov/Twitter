@@ -35,9 +35,13 @@
     <q-separator class="divider" size="10px" color="grey-2" />
 
     <q-list>
-
-      <q-item
-        class="q-py-md"
+      <transition-group
+        appear
+        enter-active-class="animated fadeIn"
+        leave-active-class="animated fadeOut"
+      >
+        <q-item
+        class="tweet q-py-md"
         v-for="tweet in tweets"
         :key="tweet.date"
       >
@@ -71,6 +75,7 @@
           {{ tweet.date | relativeDate }}
         </q-item-section>
       </q-item>
+      </transition-group>
     </q-list>
   </q-page>
 </template>
@@ -105,6 +110,7 @@ export default defineComponent({
         date: Date.now()
       }
       this.tweets.unshift(newTweet)
+      this.newTweetContent = ''
     },
     deleteTweet(tweet) {
       let dateToDelete = tweet.date
@@ -129,6 +135,8 @@ export default defineComponent({
   border-top: 1px solid
   border-bottom: 1px solid
   border-color: $grey-4
+.tweet:not(:first-child)
+  border-top: 1px solid rgba(0, 0, 0, 0.12)
 .tweet-icons
   margin-left: -5px
 </style>
