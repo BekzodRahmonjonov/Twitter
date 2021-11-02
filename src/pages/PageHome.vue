@@ -2,13 +2,13 @@
   <q-page>
     <div class="q-py-lg q-px-md row items-end q-col-gutter-sm">
       <div class="col">
-        <q-input 
-          class="new-tweet" 
-          bottom-slots 
-          v-model="newTweetContent" 
-          placeholder="What's happening?" 
-          maxlength="280" 
-          counter 
+        <q-input
+          class="new-tweet"
+          bottom-slots
+          v-model="newTweetContent"
+          placeholder="What's happening?"
+          maxlength="280"
+          counter
           autogrow
         >
           <template v-slot:before>
@@ -20,12 +20,13 @@
       </div>
       <div class="col col-shrink">
         <q-btn
-          @click="addNewTweet"          :disable="!newTweetContent"
+          @click="addNewTweet"
+          :disable="!newTweetContent"
           class="q-mb-lg"
-          unelevated 
-          rounded 
-          color="primary" 
-          label="Tweet" 
+          unelevated
+          rounded
+          color="primary"
+          label="Tweet"
           no-caps
         />
       </div>
@@ -51,9 +52,9 @@
             <strong>Bekzod Rakhmonjonov </strong>
             <span class="text-grey-7">@programmer_AI</span>
           </q-item-label>
-            
+
           <q-item-label class="text-body1">
-            {{ tweet.description }} 
+            {{ tweet.description }}
             <br>
             <br>
             {{ tweet.content }}
@@ -62,7 +63,7 @@
             <q-btn flat round color="grey" icon="far fa-comment" size="sm" />
             <q-btn flat round color="grey" icon="fas fa-retweet" size="sm" />
             <q-btn flat round color="grey" icon="far fa-heart" size="sm" />
-            <q-btn flat round color="grey" icon="fas fa-trash" size="sm" />
+            <q-btn @click="deleteTweet(tweet)" flat round color="grey" icon="fas fa-trash" size="sm" />
           </div>
         </q-item-section>
 
@@ -104,6 +105,11 @@ export default defineComponent({
         date: Date.now()
       }
       this.tweets.unshift(newTweet)
+    },
+    deleteTweet(tweet) {
+      let dateToDelete = tweet.date
+      let index = this.tweets.findIndex(tweet => tweet.date === dateToDelete)
+      this.tweets.splice(index, 1)
     }
   },
   filters: {
@@ -115,8 +121,8 @@ export default defineComponent({
 </script>
 
 <style lang="sass">
-.new-tweet 
-  textarea 
+.new-tweet
+  textarea
     font-size: 19px
     line-height: 1.4 !important
 .divider
