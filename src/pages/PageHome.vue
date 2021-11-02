@@ -19,8 +19,8 @@
         </q-input>
       </div>
       <div class="col col-shrink">
-        <q-btn 
-          :disable="!newTweetContent"
+        <q-btn
+          @click="addNewTweet"          :disable="!newTweetContent"
           class="q-mb-lg"
           unelevated 
           rounded 
@@ -35,7 +35,11 @@
 
     <q-list>
 
-      <q-item class="q-py-md">
+      <q-item
+        class="q-py-md"
+        v-for="tweet in tweets"
+        :key="tweet.date"
+      >
         <q-item-section avatar top>
           <q-avatar size="xl">
             <img src="https://cdn.quasar.dev/img/avatar4.jpg">
@@ -49,32 +53,64 @@
           </q-item-label>
             
           <q-item-label class="text-body1">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+            {{ tweet.description }} 
             <br>
             <br>
-            Aspernatur eligendi neque est, dolorem veniam, earum, ut fugiat accusantium ad odit commodi rem deleniti molestiae doloremque! Nulla veniam impedit optio! Et.Aspernatur eligendi neque est, dolorem veniam, earum, ut fugiat accusantium ad odit commodi rem deleniti molestiae doloremque! Nulla veniam impedit optio! Et.
+            {{ tweet.content }}
           </q-item-label>
+          <div class="tweet-icons row justify-between q-mt-sm">
+            <q-btn flat round color="grey" icon="far fa-comment" size="sm" />
+            <q-btn flat round color="grey" icon="fas fa-retweet" size="sm" />
+            <q-btn flat round color="grey" icon="far fa-heart" size="sm" />
+            <q-btn flat round color="grey" icon="fas fa-trash" size="sm" />
+          </div>
         </q-item-section>
 
         <q-item-section side top>
-          1 min ago
+          {{ tweet.date | relativeDate }}
         </q-item-section>
       </q-item>
-
     </q-list>
   </q-page>
 </template>
 
 <script>
 import { defineComponent } from 'vue';
+import { formatDistance } from 'date-fns'
 
 export default defineComponent({
   name: 'PageAbout',
   data() {
     return {
-      newTweetContent: ''
+      newTweetContent: '',
+      tweets: [
+        {
+          content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos consectetur, accusantium fugit similique explicabo deserunt temporibus, sed tenetur, vel iure nostrum. Est nam dolor repellendus aut? Reiciendis tenetur cumque molestiae.',
+          description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+          date: 1635608924781,
+        },
+        {
+          content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos consectetur, accusantium fugit similique explicabo deserunt temporibus, sed tenetur, vel iure nostrum. Est nam dolor repellendus aut? Reiciendis tenetur cumque molestiae.',
+          description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+          date: 1635608973632,
+        }
+      ],
     }
   },
+  methods: {
+    addNewTweet() {
+      let newTweet = {
+        content: this.newTweetContent,
+        date: Date.now()
+      }
+      this.tweets.unshift(newTweet)
+    }
+  },
+  filters: {
+    relativeDate(value) {
+      return formatDistance(value, new Date())
+    }
+  }
 })
 </script>
 
@@ -87,5 +123,6 @@ export default defineComponent({
   border-top: 1px solid
   border-bottom: 1px solid
   border-color: $grey-4
-
+.tweet-icons
+  margin-left: -5px
 </style>
